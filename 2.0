@@ -1,0 +1,358 @@
+import random
+import string
+import sys
+import time
+
+#print slow
+
+def print_slow(str):
+    for letter in str:
+        print(letter, end="")
+        time.sleep(.04)
+
+# removes card from the deck
+def removeChar(deck,card):
+    number = deck.index(card)
+    deck = deck[:number] + deck[number+1:]
+    return deck
+
+
+# picks a random card
+def randomCard(deck):
+    cardDeck = deck[0]
+    yourDeck = deck[1]
+    yourAce = deck[2]
+    #deck1 = [1,2,3,4]    
+
+    r = random.choice(cardDeck)
+    cardDeck = removeChar(cardDeck,r)
+
+    #r = random.choice(deck1)
+    #deck1 = removeChar(deck1,r)
+
+    #print(cardDeck)
+    #print(r)
+    
+    print_slow("You got ")
+    value = cardValue(r,yourAce)
+    yourAce = value[1]
+    yourDeck += value[0]
+    if yourDeck > 21:
+        if yourAce > 0:
+            yourDeck -= 10
+            yourAce -= 1
+    y = [cardDeck, yourDeck, yourAce]
+    return y
+
+
+# picks a random card for dealer
+def randomDealerCard(cardDeck, dealerDeck, dealerAce):
+    r = random.choice(cardDeck)
+    cardDeck = removeChar(cardDeck,r)
+    print("Dealer got",end=" ")
+    value = cardValue(r,dealerAce)
+    dealerAce = value[1]
+    dealerDeck += value[0]
+    print("")
+    return [cardDeck, dealerDeck, dealerAce]
+
+
+# number from list of 1 to 52 converted into card
+def cardValue(r,ace):
+    r = int(r)
+    if r > 36:
+        if r == 52:
+            print_slow("King of Diamonds")
+        elif r == 51:
+            print_slow("King of Hearts")
+        elif r == 50:
+            print_slow("King of Clubs")
+        elif r == 49:
+            print_slow("King of Spades")
+        elif r == 48:
+            print_slow("Queen of Diamonds")
+        elif r == 47:
+            print_slow("Queen of Hearts")
+        elif r == 46:
+            print_slow("Queen of Clubs")
+        elif r == 45:
+            print_slow("Queen of Spades")
+        elif r == 44:
+            print_slow("Jack of Diamonds")
+        elif r == 43:
+            print_slow("Jack of Hearts")
+        elif r == 42:
+            print_slow("Jack of Clubs")
+        elif r == 41:
+            print_slow("Jack of Spades")
+        elif r == 40:
+            print_slow("10 of Diamonds")
+        elif r == 39:
+            print_slow("10 of Hearts")
+        elif r == 38:
+            print_slow("10 of Clubs")
+        elif r == 37:
+            print_slow("10 of Spades")         
+        r = 10
+    elif r > 32:
+        if r == 36:
+            print_slow("9 of Diamonds")
+        elif r == 35:
+            print_slow("9 of Hearts")
+        elif r == 34:
+            print_slow("9 of Clubs")
+        elif r == 33:
+            print_slow("9 of Spades")
+        r = 9
+    elif r > 28:
+        if r == 32:
+            print_slow("8 of Diamonds")
+        elif r == 31:
+            print_slow("8 of Hearts")
+        elif r == 30:
+            print_slow("8 of Clubs")
+        elif r == 29:
+            print_slow("8 of Spades")
+        r = 8
+    elif r > 24:
+        if r == 28:
+            print_slow("7 of Diamonds")
+        elif r == 27:
+            print_slow("7 of Hearts")
+        elif r == 26:
+            print_slow("7 of Clubs")
+        elif r == 25:
+            print_slow("7 of Spades")
+        r = 7
+    elif r > 20:
+        if r == 24:
+            print_slow("6 of Diamonds")
+        elif r == 23:
+            print_slow("6 of Hearts")
+        elif r == 22:
+            print_slow("6 of Clubs")
+        elif r == 21:
+            print_slow("6 of Spades")
+        r = 6
+    elif r > 16:
+        if r == 20:
+            print_slow("5 of Diamonds")
+        elif r == 19:
+            print_slow("5 of Hearts")
+        elif r == 18:
+            print_slow("5 of Clubs")
+        elif r == 17:
+            print_slow("5 of Spades")
+        r = 5
+    elif r > 12:
+        if r == 16:
+            print_slow("4 of Diamonds")
+        elif r == 15:
+            print_slow("4 of Hearts")
+        elif r == 14:
+            print_slow("4 of Clubs")
+        elif r == 13:
+            print_slow("4 of Spades")
+        r = 4
+    elif r > 8:
+        if r == 12:
+            print_slow("3 of Diamonds")
+        elif r == 11:
+            print_slow("3 of Hearts")
+        elif r == 10:
+            print_slow("3 of Clubs")
+        elif r == 9:
+            print_slow("3 of Spades")
+        r = 3
+    elif r > 4:
+        if r == 8:
+            print_slow("2 of Diamonds")
+        elif r == 7:
+            print_slow("2 of Hearts")
+        elif r == 6:
+            print_slow("2 of Clubs")
+        elif r == 5:
+            print_slow("2 of Spades")
+        r = 2
+    elif r > 0:
+        if r == 4:
+            print_slow("Ace of Diamonds")
+        if r == 3:
+            print_slow("Ace of Hearts")
+        if r == 2:
+            print_slow("Ace of Clubs")
+        if r == 1:
+            print_slow("Ace of Spades")           
+        r = 11
+        ace += 1
+    print("")
+    return [r, ace]
+
+
+# determine wheter you win or lose
+
+def winner(your, dealer):
+    print(your,end="")
+    print_slow(" vs ")
+    print(dealer)
+    if your > dealer:
+        print_slow("You Win \n")
+    elif dealer >= your:
+        print_slow("You Lose \n")
+    playAgain()
+
+def youLose():
+    print_slow("You Lose \n")
+    playAgain()
+
+def dealerLose():
+    print_slow("You Win \n")
+    playAgain()
+
+
+def playAgain():
+    print("")
+    h = input("Play Again? 'yes' or 'no'")
+    print("")
+    if h == 'yes':
+        blackJack()
+    elif h == 'no':
+        sys.exit()
+
+#################
+
+
+# player's first two cards
+def yourTurn():
+    your = 0
+    x = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,
+             27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,
+             50,51,52]
+    aceCounter = 0
+    y = [x, your, aceCounter]
+    for i in range(2):
+        y = randomCard(y)
+    print("")
+    return y
+
+
+# dealer's first card
+def dealerTurn(deck):
+    dealer = 0
+    your = deck[1]
+    x = deck[0] 
+    aceCounter = deck[2]
+    dealerAce = 0   
+    y = randomDealerCard(x, dealer, dealerAce)
+    
+    x = y[0]
+    dealer = y[1]
+    dealerAce = y[2]
+    y = [x, your, dealer, aceCounter, dealerAce]
+    return y
+
+
+# player choice to either hit or stay
+def yourChoice(deck):
+    cardDeck = deck[0]
+    yourHand = deck[1]
+    dealerHand = deck[2]
+    yourAce = deck[3]
+    dealerAce = deck[4]
+    print_slow("Your Total Value: ")
+    print(yourHand)
+    print("")    
+    #player is playing
+    card = input("Hit or Stay? Type in 'hit' or 'stay'")
+    while (card != 'hit') and (card != 'stay'):
+        card = input("Hit or Stay? Type in 'hit' or 'stay'")
+        if card == 'hit' or card == 'stay':
+            break
+    print("")
+    while card == "hit":
+        r = random.choice(cardDeck)
+        print_slow("You got: ")
+        value = cardValue(r, yourAce)
+        yourAce = value[1]
+        yourHand += value[0]
+        if yourAce > 0:
+            if yourHand > 21:
+                yourHand -= 10
+                yourAce -= 1
+        if yourHand > 21:
+            print_slow("Your Total Value: ")
+            print(yourHand)
+            print("")
+            youLose()
+        else:
+            print_slow("Your Total Value: ")
+            print(yourHand)
+            print("")
+            card = input("Hit or Stay? Type in 'hit' or 'stay'")
+        if card == "stay":
+            break
+    print_slow("Player stays \n")
+    print("")
+    y = [cardDeck, yourHand, dealerHand, yourAce, dealerAce]
+    return y
+
+# dealer's choice to either hit or stay
+def dealerChoice(deck):
+    cardDeck = deck[0]
+    yourHand = deck[1]
+    dealerHand = deck[2]
+    yourAce = deck[3]
+    dealerAce = deck[4]    
+    # dealer is playing
+    while dealerHand < yourHand:
+        r = random.choice(cardDeck)
+        value = cardValue(r, dealerAce)
+        dealerAce = value[1]
+        dealerHand += value[0]
+        if dealerAce > 0:
+            if dealerHand > 21:
+                dealerHand -= 10
+                dealerAce -= 1
+        if dealerHand > 21:
+            print_slow("Dealer Total Value: ")
+            print(dealerHand)
+            print("")
+            dealerLose()
+        else:
+            print_slow("Dealer Total Value: ")
+            print(dealerHand)
+            print("")
+        if dealerHand >= yourHand:
+            break
+    y = [cardDeck, yourHand, dealerHand, yourAce, dealerAce]
+    return y
+
+
+###########
+
+
+# bet system
+def bet(wallet):
+    theBet = int(input("Enter the amount you want to bet"))
+    wallet -= theBet
+    print("")
+    return [wallet, theBet]
+
+
+
+# blackjack
+def blackJack():
+#    bet(w)
+    firstDeck = yourTurn()
+    gameDeck = dealerTurn(firstDeck)
+    yourDeck = yourChoice(gameDeck)
+    dealerDeck = dealerChoice(yourDeck)
+
+    yourHand = dealerDeck[1]
+    dealerHand = dealerDeck[2]
+
+    winner(yourHand, dealerHand)
+
+#wallet = int(input("Enter how much you're cashing in"))
+blackJack()
+
