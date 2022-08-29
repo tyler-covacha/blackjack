@@ -154,7 +154,7 @@ def player_choice(value, ace, deck, bet, name):
 def dealer_choice(dealer_value, ace, deck, bet, name):
     
     # dealer always hits if their hand value is under 17
-    while dealer_value < 16:
+    while dealer_value < 17:
         card = random_card(deck)
         dealer_value += card[1]
         ace += card[2]
@@ -174,7 +174,10 @@ def dealer_choice(dealer_value, ace, deck, bet, name):
         # dealer always stays if their hand value is 17 or over
         if dealer_value >= 17:
             print("Dealer stays")
+            print("Dealer hand value:",dealer_value)
             break
+        else:
+            print("Dealer hand value:",dealer_value)
             
     return dealer_value, deck
                 
